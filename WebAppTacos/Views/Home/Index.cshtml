@@ -1,0 +1,132 @@
+﻿@model WebAppTacos.Models.Kirjautuminen
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+@*FAS-ikonit käyttöön sivulla yllä olevalla*@
+
+@*JQuery, joka suoritetaan aina, kun sivu latautuu*@
+@section scripts {
+    <script type="text/javascript">
+$(window).on('load', function () {
+if (@ViewBag.LoginError == 1) {
+$('#LoginRuutu').modal('show');
+}
+});
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Orange', 'Orange', 'Orange', 'Orange', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [55, 19, 3, 5, 2, 3, 4, 5, 6, 5, 4,],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+    </script>
+}
+
+<div id="Otsikko" class="jumbotron">
+    <h1 id="Pääotsikko">TPF - Tacos Por Favor</h1>
+    <p class="lead">Tervetuloa makumatkalle autenttiseen meksikolaiseen keittiöön!</p>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#LoginRuutu">Kirjaudu sisään</button>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <h2>Tietoa yrityksestä</h2>
+            <p>Lisätietoa yrityksemme tarinasta, tuotteista ja työntekijöistä.</p>
+            <p><a class="btn btn-success" href="~/Home/About">Tietoa meistä &raquo;</a></p>
+        </div>
+        <div class="col-sm-3">
+            <h2>Yhteystiedot</h2>
+            <p>Yrityksemme tarkemmat yhteystiedot.</p><br />
+            <p><a class="btn btn-success" href="~/Home/Contact">Yhteystietomme &raquo;</a></p>
+        </div>
+        <div class="col-sm-3">
+            <h2>Sijaintimme kartalla</h2>
+            <p>Mistä meidät löydät ja millä alueilla kotiinkuljetamme?</p><br />
+            <p><a class="btn btn-success" href="~/Home/Map">Sijaintimme &raquo;</a></p>
+        </div>
+        <div class="col-sm-3">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+        <div class="modal fade" id="LoginRuutu">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 id="Vihreä">SISÄÄNKIRJAUTUMINEN</h1>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("Authorize", "Home", FormMethod.Post, new { @id = "loginForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                <h4>Kirjaudu sisään</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.KirjautumisID)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Kayttajatunnus, "Käyttäjätunnus", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Kayttajatunnus, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Kayttajatunnus, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Salasana, "Salasana", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Salasana, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Salasana, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <label class="text-danger">
+                                    @Html.DisplayFor(model => model.LoginErrorMessage)
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" form="loginForm"><i class="fas fa-check"></i></button>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

@@ -1,0 +1,36 @@
+﻿@model WebAppTacos.Models.Tuotteet
+
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalProductDetails">
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="Vihreä" class="modal-title">Tuotteen tiedot</h3>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <h4>Tuotteet</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Nimi)</dt>
+                        <dd>@Html.DisplayFor(model => model.Nimi)</dd>
+                        <dt>Varastosaldo</dt>
+                        <dd>@Html.DisplayFor(model => model.varMaara)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Hinta)</dt>
+                        <dd>@Html.DisplayFor(model => model.Hinta)</dd>
+                        <dt>Tuoteryhmä</dt>
+                        <dd>@Html.DisplayFor(model => model.Tuoteryhmat.Tuoteryhmanimi)</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-success" href="~/Tuotteet/Edit/@Model.TuoteID">Muokkaa tietoja</a>
+                <a class="btn btn-secondary" href="~/Tuotteet/Index/">Takaisin listaukseen</a>
+            </div>
+        </div>
+    </div>
+</div>

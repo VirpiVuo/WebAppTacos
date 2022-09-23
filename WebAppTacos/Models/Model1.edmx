@@ -1,0 +1,565 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TacosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Asiakkaat">
+          <Key>
+            <PropertyRef Name="AsiakasID" />
+          </Key>
+          <Property Name="AsiakasID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Etunimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sukunimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Osoite" Type="nvarchar" MaxLength="50" />
+          <Property Name="Postinumero" Type="int" />
+          <Property Name="Postitoimipaikka" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Kirjautuminen">
+          <Key>
+            <PropertyRef Name="KirjautumisID" />
+          </Key>
+          <Property Name="KirjautumisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kayttajatunnus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Salasana" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tilaukset">
+          <Key>
+            <PropertyRef Name="TilausID" />
+          </Key>
+          <Property Name="TilausID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AsiakasID" Type="int" Nullable="false" />
+          <Property Name="Toimitusosoite" Type="nvarchar" MaxLength="50" />
+          <Property Name="Postinumero" Type="int" />
+          <Property Name="Tilauspvm" Type="date" />
+          <Property Name="Toimituspvm" Type="date" />
+        </EntityType>
+        <EntityType Name="Tilausrivit">
+          <Key>
+            <PropertyRef Name="TilausriviID" />
+          </Key>
+          <Property Name="TilausriviID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TilausID" Type="int" Nullable="false" />
+          <Property Name="TuoteID" Type="int" />
+          <Property Name="Maara" Type="int" />
+          <Property Name="Hinta" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Tuoteryhmat">
+          <Key>
+            <PropertyRef Name="TuoteryhmaID" />
+          </Key>
+          <Property Name="TuoteryhmaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tuoteryhmanimi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Kuvaus" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tuotteet">
+          <Key>
+            <PropertyRef Name="TuoteID" />
+          </Key>
+          <Property Name="TuoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="varMaara" Type="int" />
+          <Property Name="Hinta" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TuoteryhmaID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TacosDB.dbo.ProductsDailySales' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProductsDailySales">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="Tilauspvm" Type="date" />
+          <Property Name="Nimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DailySales" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TacosDB.dbo.TilausMaarat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TilausMaarat">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="Weekday" Type="nvarchar" MaxLength="30" />
+          <Property Name="Total" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TacosDB.dbo.Top10Tuotteet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Top10Tuotteet">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="Nimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Myynnit" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TacosDB.dbo.TuotteidenKaikkiMyynnit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TuotteidenKaikkiMyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="Nimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Myynnit" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TacosDB.dbo.TuotteidenPaivaMyynnit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TuotteidenPaivaMyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="bigint" Nullable="false" />
+          <Property Name="Tilauspvm" Type="date" />
+          <Property Name="Nimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Paivamyynnit" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <Association Name="FK_Tilaukset_Asiakkaat">
+          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="1" />
+          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asiakkaat">
+              <PropertyRef Name="AsiakasID" />
+            </Principal>
+            <Dependent Role="Tilaukset">
+              <PropertyRef Name="AsiakasID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilausrivit_Tilaukset">
+          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="1" />
+          <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tilaukset">
+              <PropertyRef Name="TilausID" />
+            </Principal>
+            <Dependent Role="Tilausrivit">
+              <PropertyRef Name="TilausID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilausrivit_Tuotteet">
+          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="0..1" />
+          <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tuotteet">
+              <PropertyRef Name="TuoteID" />
+            </Principal>
+            <Dependent Role="Tilausrivit">
+              <PropertyRef Name="TuoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tuotteet_Tuoteryhmat">
+          <End Role="Tuoteryhmat" Type="Self.Tuoteryhmat" Multiplicity="0..1" />
+          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tuoteryhmat">
+              <PropertyRef Name="TuoteryhmaID" />
+            </Principal>
+            <Dependent Role="Tuotteet">
+              <PropertyRef Name="TuoteryhmaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TacosDBModelStoreContainer">
+          <EntitySet Name="Asiakkaat" EntityType="Self.Asiakkaat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kirjautuminen" EntityType="Self.Kirjautuminen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tilaukset" EntityType="Self.Tilaukset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tilausrivit" EntityType="Self.Tilausrivit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tuoteryhmat" EntityType="Self.Tuoteryhmat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tuotteet" EntityType="Self.Tuotteet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductsDailySales" EntityType="Self.ProductsDailySales" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProductsDailySales].[rowid] AS [rowid], 
+    [ProductsDailySales].[Tilauspvm] AS [Tilauspvm], 
+    [ProductsDailySales].[Nimi] AS [Nimi], 
+    [ProductsDailySales].[DailySales] AS [DailySales]
+    FROM [dbo].[ProductsDailySales] AS [ProductsDailySales]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TilausMaarat" EntityType="Self.TilausMaarat" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TilausMaarat].[rowid] AS [rowid], 
+    [TilausMaarat].[Weekday] AS [Weekday], 
+    [TilausMaarat].[Total] AS [Total]
+    FROM [dbo].[TilausMaarat] AS [TilausMaarat]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Top10Tuotteet" EntityType="Self.Top10Tuotteet" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Top10Tuotteet].[rowid] AS [rowid], 
+    [Top10Tuotteet].[Nimi] AS [Nimi], 
+    [Top10Tuotteet].[Myynnit] AS [Myynnit]
+    FROM [dbo].[Top10Tuotteet] AS [Top10Tuotteet]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TuotteidenKaikkiMyynnit" EntityType="Self.TuotteidenKaikkiMyynnit" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TuotteidenKaikkiMyynnit].[rowid] AS [rowid], 
+    [TuotteidenKaikkiMyynnit].[Nimi] AS [Nimi], 
+    [TuotteidenKaikkiMyynnit].[Myynnit] AS [Myynnit]
+    FROM [dbo].[TuotteidenKaikkiMyynnit] AS [TuotteidenKaikkiMyynnit]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TuotteidenPaivaMyynnit" EntityType="Self.TuotteidenPaivaMyynnit" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TuotteidenPaivaMyynnit].[rowid] AS [rowid], 
+    [TuotteidenPaivaMyynnit].[Tilauspvm] AS [Tilauspvm], 
+    [TuotteidenPaivaMyynnit].[Nimi] AS [Nimi], 
+    [TuotteidenPaivaMyynnit].[Paivamyynnit] AS [Paivamyynnit]
+    FROM [dbo].[TuotteidenPaivaMyynnit] AS [TuotteidenPaivaMyynnit]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Tilaukset_Asiakkaat" Association="Self.FK_Tilaukset_Asiakkaat">
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+            <End Role="Tilaukset" EntitySet="Tilaukset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilausrivit_Tilaukset" Association="Self.FK_Tilausrivit_Tilaukset">
+            <End Role="Tilaukset" EntitySet="Tilaukset" />
+            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilausrivit_Tuotteet" Association="Self.FK_Tilausrivit_Tuotteet">
+            <End Role="Tuotteet" EntitySet="Tuotteet" />
+            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tuotteet_Tuoteryhmat" Association="Self.FK_Tuotteet_Tuoteryhmat">
+            <End Role="Tuoteryhmat" EntitySet="Tuoteryhmat" />
+            <End Role="Tuotteet" EntitySet="Tuotteet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TacosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Asiakkaat">
+          <Key>
+            <PropertyRef Name="AsiakasID" />
+          </Key>
+          <Property Name="AsiakasID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Etunimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sukunimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Osoite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Postinumero" Type="Int32" />
+          <Property Name="Postitoimipaikka" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tilaukset" Relationship="Self.FK_Tilaukset_Asiakkaat" FromRole="Asiakkaat" ToRole="Tilaukset" />
+        </EntityType>
+        <EntityType Name="Kirjautuminen">
+          <Key>
+            <PropertyRef Name="KirjautumisID" />
+          </Key>
+          <Property Name="KirjautumisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kayttajatunnus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salasana" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tilaukset">
+          <Key>
+            <PropertyRef Name="TilausID" />
+          </Key>
+          <Property Name="TilausID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AsiakasID" Type="Int32" Nullable="false" />
+          <Property Name="Toimitusosoite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Postinumero" Type="Int32" />
+          <Property Name="Tilauspvm" Type="DateTime" Precision="0" />
+          <Property Name="Toimituspvm" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Asiakkaat" Relationship="Self.FK_Tilaukset_Asiakkaat" FromRole="Tilaukset" ToRole="Asiakkaat" />
+          <NavigationProperty Name="Tilausrivit" Relationship="Self.FK_Tilausrivit_Tilaukset" FromRole="Tilaukset" ToRole="Tilausrivit" />
+        </EntityType>
+        <EntityType Name="Tilausrivit">
+          <Key>
+            <PropertyRef Name="TilausriviID" />
+          </Key>
+          <Property Name="TilausriviID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TilausID" Type="Int32" Nullable="false" />
+          <Property Name="TuoteID" Type="Int32" />
+          <Property Name="Maara" Type="Int32" />
+          <Property Name="Hinta" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Tilaukset" Relationship="Self.FK_Tilausrivit_Tilaukset" FromRole="Tilausrivit" ToRole="Tilaukset" />
+          <NavigationProperty Name="Tuotteet" Relationship="Self.FK_Tilausrivit_Tuotteet" FromRole="Tilausrivit" ToRole="Tuotteet" />
+        </EntityType>
+        <EntityType Name="Tuoteryhmat">
+          <Key>
+            <PropertyRef Name="TuoteryhmaID" />
+          </Key>
+          <Property Name="TuoteryhmaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tuoteryhmanimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Kuvaus" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tuotteet" Relationship="Self.FK_Tuotteet_Tuoteryhmat" FromRole="Tuoteryhmat" ToRole="Tuotteet" />
+        </EntityType>
+        <EntityType Name="Tuotteet">
+          <Key>
+            <PropertyRef Name="TuoteID" />
+          </Key>
+          <Property Name="TuoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="varMaara" Type="Int32" />
+          <Property Name="Hinta" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TuoteryhmaID" Type="Int32" />
+          <NavigationProperty Name="Tilausrivit" Relationship="Self.FK_Tilausrivit_Tuotteet" FromRole="Tuotteet" ToRole="Tilausrivit" />
+          <NavigationProperty Name="Tuoteryhmat" Relationship="Self.FK_Tuotteet_Tuoteryhmat" FromRole="Tuotteet" ToRole="Tuoteryhmat" />
+        </EntityType>
+        <EntityType Name="ProductsDailySales">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="Tilauspvm" Type="DateTime" Precision="0" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DailySales" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="TilausMaarat">
+          <Key>
+            <PropertyRef Name="rowid" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="Weekday" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="Top10Tuotteet">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Myynnit" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="TuotteidenKaikkiMyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Myynnit" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="TuotteidenPaivaMyynnit">
+          <Key>
+            <PropertyRef Name="rowid" />
+            <PropertyRef Name="Nimi" />
+          </Key>
+          <Property Name="rowid" Type="Int64" Nullable="false" />
+          <Property Name="Tilauspvm" Type="DateTime" Precision="0" />
+          <Property Name="Nimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Paivamyynnit" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <Association Name="FK_Tilaukset_Asiakkaat">
+          <End Role="Asiakkaat" Type="Self.Asiakkaat" Multiplicity="1" />
+          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asiakkaat">
+              <PropertyRef Name="AsiakasID" />
+            </Principal>
+            <Dependent Role="Tilaukset">
+              <PropertyRef Name="AsiakasID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilausrivit_Tilaukset">
+          <End Role="Tilaukset" Type="Self.Tilaukset" Multiplicity="1" />
+          <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tilaukset">
+              <PropertyRef Name="TilausID" />
+            </Principal>
+            <Dependent Role="Tilausrivit">
+              <PropertyRef Name="TilausID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tilausrivit_Tuotteet">
+          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="0..1" />
+          <End Role="Tilausrivit" Type="Self.Tilausrivit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tuotteet">
+              <PropertyRef Name="TuoteID" />
+            </Principal>
+            <Dependent Role="Tilausrivit">
+              <PropertyRef Name="TuoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tuotteet_Tuoteryhmat">
+          <End Role="Tuoteryhmat" Type="Self.Tuoteryhmat" Multiplicity="0..1" />
+          <End Role="Tuotteet" Type="Self.Tuotteet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tuoteryhmat">
+              <PropertyRef Name="TuoteryhmaID" />
+            </Principal>
+            <Dependent Role="Tuotteet">
+              <PropertyRef Name="TuoteryhmaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TacosDBEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Asiakkaat" EntityType="Self.Asiakkaat" />
+          <EntitySet Name="Kirjautuminen" EntityType="Self.Kirjautuminen" />
+          <EntitySet Name="Tilaukset" EntityType="Self.Tilaukset" />
+          <EntitySet Name="Tilausrivit" EntityType="Self.Tilausrivit" />
+          <EntitySet Name="Tuoteryhmat" EntityType="Self.Tuoteryhmat" />
+          <EntitySet Name="Tuotteet" EntityType="Self.Tuotteet" />
+          <EntitySet Name="ProductsDailySales" EntityType="Self.ProductsDailySales" />
+          <EntitySet Name="TilausMaarat" EntityType="Self.TilausMaarat" />
+          <EntitySet Name="Top10Tuotteet" EntityType="Self.Top10Tuotteet" />
+          <EntitySet Name="TuotteidenKaikkiMyynnit" EntityType="Self.TuotteidenKaikkiMyynnit" />
+          <EntitySet Name="TuotteidenPaivaMyynnit" EntityType="Self.TuotteidenPaivaMyynnit" />
+          <AssociationSet Name="FK_Tilaukset_Asiakkaat" Association="Self.FK_Tilaukset_Asiakkaat">
+            <End Role="Asiakkaat" EntitySet="Asiakkaat" />
+            <End Role="Tilaukset" EntitySet="Tilaukset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilausrivit_Tilaukset" Association="Self.FK_Tilausrivit_Tilaukset">
+            <End Role="Tilaukset" EntitySet="Tilaukset" />
+            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tilausrivit_Tuotteet" Association="Self.FK_Tilausrivit_Tuotteet">
+            <End Role="Tuotteet" EntitySet="Tuotteet" />
+            <End Role="Tilausrivit" EntitySet="Tilausrivit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tuotteet_Tuoteryhmat" Association="Self.FK_Tuotteet_Tuoteryhmat">
+            <End Role="Tuoteryhmat" EntitySet="Tuoteryhmat" />
+            <End Role="Tuotteet" EntitySet="Tuotteet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TacosDBModelStoreContainer" CdmEntityContainer="TacosDBEntities3">
+          <EntitySetMapping Name="Asiakkaat">
+            <EntityTypeMapping TypeName="TacosDBModel.Asiakkaat">
+              <MappingFragment StoreEntitySet="Asiakkaat">
+                <ScalarProperty Name="AsiakasID" ColumnName="AsiakasID" />
+                <ScalarProperty Name="Etunimi" ColumnName="Etunimi" />
+                <ScalarProperty Name="Sukunimi" ColumnName="Sukunimi" />
+                <ScalarProperty Name="Osoite" ColumnName="Osoite" />
+                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
+                <ScalarProperty Name="Postitoimipaikka" ColumnName="Postitoimipaikka" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kirjautuminen">
+            <EntityTypeMapping TypeName="TacosDBModel.Kirjautuminen">
+              <MappingFragment StoreEntitySet="Kirjautuminen">
+                <ScalarProperty Name="KirjautumisID" ColumnName="KirjautumisID" />
+                <ScalarProperty Name="Kayttajatunnus" ColumnName="Kayttajatunnus" />
+                <ScalarProperty Name="Salasana" ColumnName="Salasana" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tilaukset">
+            <EntityTypeMapping TypeName="TacosDBModel.Tilaukset">
+              <MappingFragment StoreEntitySet="Tilaukset">
+                <ScalarProperty Name="TilausID" ColumnName="TilausID" />
+                <ScalarProperty Name="AsiakasID" ColumnName="AsiakasID" />
+                <ScalarProperty Name="Toimitusosoite" ColumnName="Toimitusosoite" />
+                <ScalarProperty Name="Postinumero" ColumnName="Postinumero" />
+                <ScalarProperty Name="Tilauspvm" ColumnName="Tilauspvm" />
+                <ScalarProperty Name="Toimituspvm" ColumnName="Toimituspvm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tilausrivit">
+            <EntityTypeMapping TypeName="TacosDBModel.Tilausrivit">
+              <MappingFragment StoreEntitySet="Tilausrivit">
+                <ScalarProperty Name="TilausriviID" ColumnName="TilausriviID" />
+                <ScalarProperty Name="TilausID" ColumnName="TilausID" />
+                <ScalarProperty Name="TuoteID" ColumnName="TuoteID" />
+                <ScalarProperty Name="Maara" ColumnName="Maara" />
+                <ScalarProperty Name="Hinta" ColumnName="Hinta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tuoteryhmat">
+            <EntityTypeMapping TypeName="TacosDBModel.Tuoteryhmat">
+              <MappingFragment StoreEntitySet="Tuoteryhmat">
+                <ScalarProperty Name="TuoteryhmaID" ColumnName="TuoteryhmaID" />
+                <ScalarProperty Name="Tuoteryhmanimi" ColumnName="Tuoteryhmanimi" />
+                <ScalarProperty Name="Kuvaus" ColumnName="Kuvaus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tuotteet">
+            <EntityTypeMapping TypeName="TacosDBModel.Tuotteet">
+              <MappingFragment StoreEntitySet="Tuotteet">
+                <ScalarProperty Name="TuoteID" ColumnName="TuoteID" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="varMaara" ColumnName="varMaara" />
+                <ScalarProperty Name="Hinta" ColumnName="Hinta" />
+                <ScalarProperty Name="TuoteryhmaID" ColumnName="TuoteryhmaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductsDailySales">
+            <EntityTypeMapping TypeName="TacosDBModel.ProductsDailySales">
+              <MappingFragment StoreEntitySet="ProductsDailySales">
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+                <ScalarProperty Name="Tilauspvm" ColumnName="Tilauspvm" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="DailySales" ColumnName="DailySales" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TilausMaarat">
+            <EntityTypeMapping TypeName="TacosDBModel.TilausMaarat">
+              <MappingFragment StoreEntitySet="TilausMaarat">
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+                <ScalarProperty Name="Weekday" ColumnName="Weekday" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Top10Tuotteet">
+            <EntityTypeMapping TypeName="TacosDBModel.Top10Tuotteet">
+              <MappingFragment StoreEntitySet="Top10Tuotteet">
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="Myynnit" ColumnName="Myynnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TuotteidenKaikkiMyynnit">
+            <EntityTypeMapping TypeName="TacosDBModel.TuotteidenKaikkiMyynnit">
+              <MappingFragment StoreEntitySet="TuotteidenKaikkiMyynnit">
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="Myynnit" ColumnName="Myynnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TuotteidenPaivaMyynnit">
+            <EntityTypeMapping TypeName="TacosDBModel.TuotteidenPaivaMyynnit">
+              <MappingFragment StoreEntitySet="TuotteidenPaivaMyynnit">
+                <ScalarProperty Name="rowid" ColumnName="rowid" />
+                <ScalarProperty Name="Tilauspvm" ColumnName="Tilauspvm" />
+                <ScalarProperty Name="Nimi" ColumnName="Nimi" />
+                <ScalarProperty Name="Paivamyynnit" ColumnName="Paivamyynnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

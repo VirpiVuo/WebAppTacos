@@ -1,0 +1,31 @@
+﻿@model WebAppTacos.Models.Tuotteet
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2 id="Vihreä">POISTA TUOTE</h2>
+
+<p>Haluatko varmasti poistaa tuotteen?</p>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Nimi)</dt>
+        <dd>@Html.DisplayFor(model => model.Nimi)</dd>
+        <dt>Varastosaldo</dt>
+        <dd>@Html.DisplayFor(model => model.varMaara)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Hinta)</dt>
+        <dd>@Html.DisplayFor(model => model.Hinta)</dd>
+        <dt>Tuoteryhmä</dt>
+        <dd>@Html.DisplayFor(model => model.TuoteryhmaID)</dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <a class="btn btn-secondary" href="~/Tuotteet/Index/">Takaisin listaukseen</a>
+    <input type="submit" value="Poista" class="btn btn-danger" />
+</div>
+    }
+</div>

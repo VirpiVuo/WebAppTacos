@@ -1,0 +1,26 @@
+﻿@model WebAppTacos.Models.Tuotteet
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2 id="Vihreä">TUOTETIEDOT</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Tuotteen nimi</dt>
+        <dd>@Html.DisplayFor(model => model.Nimi)</dd>
+        <dt>Varastosaldo</dt>
+        <dd>@Html.DisplayFor(model => model.varMaara)</dd>
+        <dt>Hinta</dt>
+        <dd>@Html.DisplayFor(model => model.Hinta)</dd>
+        <dt>Tuoteryhmä</dt>
+        <dd>@Html.DisplayFor(model => model.TuoteryhmaID)</dd>
+    </dl>
+</div>
+<p>
+    <a class="btn btn-secondary" href="~/Tuotteet/Index/">Takaisin listaukseen</a>
+    <a class="btn btn-success" href="~/Tuotteet/Edit/@Model.TuoteID">Muokkaa tietoja</a>
+</p>

@@ -1,0 +1,45 @@
+﻿@model WebAppTacos.Models.Tilaukset
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalOrderDelete">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 id="Vihreä" class="modal-title">Tilaustietojen poistaminen</h4>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <h4>Haluatko varmasti poistaa tilauksen @Html.DisplayFor(model => model.TilausID)?</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Asiakkaat.Etunimi)</dt>
+                        <dd>@Html.DisplayFor(model => model.Asiakkaat.Etunimi)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Toimitusosoite)</dt>
+                        <dd>@Html.DisplayFor(model => model.Toimitusosoite)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Postinumero)</dt>
+                        <dd>@Html.DisplayFor(model => model.Postinumero)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Tilauspvm)</dt>
+                        <dd>@Html.DisplayFor(model => model.Tilauspvm)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Toimituspvm)</dt>
+                        <dd>@Html.DisplayFor(model => model.Toimituspvm)</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <button type="submit" value="Delete" class="btn btn-success"><i class="fas fa-check"></i></button>
+                        <a href="@Url.Action("Index", "Tilaukset")" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                    </div>
+                    }
+            </div>
+        </div>
+    </div>
+</div>

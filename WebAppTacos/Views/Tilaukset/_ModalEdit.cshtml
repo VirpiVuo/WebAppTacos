@@ -1,0 +1,83 @@
+﻿@model WebAppTacos.Models.Tilaukset
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalOrderEdit">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 id ="Vihreä" class="modal-title">Tilaustietojen muokkaus</h4>
+            </div>
+
+            <div class="modal-body">
+                @*määritetään formille id jotta footerissa oleva submit voi kutsua sitä*@
+                @using (Html.BeginForm("_ModalEdit", "Tilaukset", FormMethod.Post, new { id = "editForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4 id="Vihreä">Tilaukset</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.TilausID)
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AsiakasID, "Etunimi", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("AsiakasID", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.AsiakasID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Toimitusosoite, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Toimitusosoite, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Toimitusosoite, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Postinumero, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Postinumero, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Postinumero, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Tilauspvm, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Tilauspvm, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Tilauspvm, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Toimituspvm, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Toimituspvm, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Toimituspvm, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="modal-footer">
+                @*alla oikeat buttonit jotta tieto saadaan tallenettua kantaan*@
+                <button type="submit" class="btn btn-success" form="editForm"><i class="fas fa-check"></i></button>
+                <a href="@Url.Action("Index", "Tilaukset")" class="btn btn-danger"><i class="fas fa-times"></i></a>
+            </div>
+
+        </div>
+    </div>
+</div>

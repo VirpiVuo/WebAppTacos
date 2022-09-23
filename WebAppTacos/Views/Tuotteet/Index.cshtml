@@ -1,0 +1,162 @@
+﻿@model PagedList.IPagedList<WebAppTacos.Models.Tuotteet>
+@using PagedList.Mvc; @*muutetaan kolme ylintä riviä sivutusta varten*@
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
+@{
+    ViewBag.Title = "Index";
+}
+@section scripts {
+    <script type="text/javascript">
+        $("#yksiValittuTuoteryhmaID").on("change", function () {
+            var valArvo = $("#yksiValittuTuoteryhmaID").val();
+            alert(valArvo);
+            document.getElementById("TuoteRyhma").value = valArvo;
+        });
+
+        $(function () {
+            $(".getProductId").click(function () {
+                let productId = $(this).data("tuoteid");
+                console.log("Klikkasit tuotenumeroa: " + productId);
+                var url = "/Tuotteet/_ModalEdit/?id=" + productId;
+                console.log(url);
+
+                $("#productEdit").append(" <b> Avataan tuotteen " + productId + " muokkausikkuna...</b>");
+
+                var $detailDivEdit = $("#productEdit");
+                $.get(url, function (data) {
+                    $detailDivEdit.replaceWith(data);
+                    $("#ModalProductEdit").modal("show");
+                });
+            });
+        });
+        $(function () {
+            $(".delProductId").click(function () {
+                let productId = $(this).data("tuoteid");
+                console.log("Klikkasit poistettavaa tuotenumeroa: " + productId);
+                var url = "/Tuotteet/_ModalDelete/?id=" + productId;
+                console.log(url);
+
+                $("#productDelete").append(" <b> Avataan tuotteen " + productId + " poistoikkuna...</b>");
+
+                var $detailDivDel = $("#productDelete");
+                $.get(url, function (data) {
+                    $detailDivDel.replaceWith(data);
+                    $("#ModalProductDelete").modal("show");
+                });
+            });
+        });
+        $(function () {
+            $(".creNewProduct").click(function () {
+                let productId = $(this).data("tuoteid");
+                console.log("Klikkasit uuden tuotteen luontipainiketta: " + productId);
+                var url = "/Tuotteet/_ModalCreate/?id=";
+                console.log(url);
+
+                $("#productCreate").append(" <b> Avataan tuotteen luonti-ikkuna...</b>");
+
+                var $detailDivCreate = $("#productCreate");
+                $.get(url, function (data) {
+                    $detailDivCreate.replaceWith(data);
+                    $("#ModalProductCreate").modal("show");
+                });
+            });
+        });
+        $(function () {
+            $(".showProductDetails").click(function () {
+                let productId = $(this).data("tuoteid");
+                console.log("Klikkasit tuotteen" + productId + " tuotetietojen näyttöpainiketta: ");
+                var url = "/Tuotteet/_ModalDetails/?id=" + productId;
+                console.log(url);
+
+                $("#productDetails").append(" <b> Avataan tuotteen tiedot...</b>");
+
+                var $detailDivDet = $("#productDetails");
+                $.get(url, function (data) {
+                    $detailDivDet.replaceWith(data);
+                    $("#ModalProductDetails").modal("show");
+                });
+            });
+        });
+    </script>
+}
+
+<h1 id="Vihreä">TUOTTEET</h1>
+
+<p>
+    <button class="creNewProduct btn btn-success">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 16 16">
+            <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z" />
+            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
+        </svg> Lisää uusi tuote
+    </button>
+    @*<a class="btn btn-outline-success" href="~/Tuotteet/ProductSummary/">Tuotteiden yhteeneveto</a>*@
+</p>
+
+<div id="productEdit"></div>
+<div id="productDelete"></div>
+<div id="productCreate"></div>
+<div id="productDetails"></div>
+
+
+@using (Html.BeginForm("Index", "Tuotteet", FormMethod.Get))
+{
+    <div class="input-group">
+        <p class="px-1">@Html.Label("Etsi nimellä: ")</p>
+        <p class="px-1">@Html.TextBox("SearchString1", ViewBag.currentFilter1 as string, new { @class = "form-control" })</p>
+        <p class="px-1">@Html.Label("Etsi tuoteryhmällä: ")</p>
+        <p class="px-1">@Html.Hidden("TuoteRyhma", ViewBag.currentFilter1 as string, new { @id = "TuoteRyhma", @class = "form-control" })</p>
+        <p class="px-1">@Html.DropDownList("TuoteryhmaID", null, htmlAttributes: new { @id = "yksiValittuTuoteryhmaID", @class = "form-control" })</p>
+        <p class="px-1"><input type="submit" value="Etsi" class="form-control" /></p>
+    </div>
+}
+
+<table class="table table-bordered">
+    <tr class="table-success">
+        <th>@Html.ActionLink("Tuotteen nimi", "Index", new { sortOrder = ViewBag.ProductNameSortParm, currentFilter1 = ViewBag.currentFilter1 })</th>
+        <th>Varastosaldo</th>
+        <th>@Html.ActionLink("Hinta", "Index", new { sortOrder = ViewBag.UnitProceSortParm, currentFilter1 = ViewBag.currentFilter1 })</th>
+        <th>Tuoteryhmä</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Nimi)</td>
+            <td>@Html.DisplayFor(modelItem => item.varMaara)</td>
+            <td>@Html.DisplayFor(modelItem => item.Hinta)</td>
+            <td>@Html.DisplayFor(modelItem => item.Tuoteryhmat.Tuoteryhmanimi)</td>
+            <td>
+
+                <button class="getProductId btn btn-success" data-tuoteid="@item.TuoteID">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                    </svg>
+                </button>
+
+                <button class="showProductDetails btn btn-success" data-tuoteid="@item.TuoteID">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                    </svg>
+                </button>
+
+                <button class="delProductId btn btn-success" data-tuoteid="@item.TuoteID">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                    </svg>
+                </button>
+
+            </td>
+        </tr>
+    }
+</table>
+
+Page @(Model.PageCount <Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter1 = ViewBag.currentFilter1 }))
+
+<a class="btn btn-success" href="~/Home/Index/">TAKAISIN ETUSIVULLE</a>

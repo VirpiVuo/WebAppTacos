@@ -1,0 +1,36 @@
+﻿@model WebAppTacos.Models.Tilaukset
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalOrderDetails">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3 id="Vihreä" class="modal-title">Tilauksen tiedot</h3>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Asiakkaat.Etunimi)</dt>
+                        <dd>@Html.DisplayFor(model => model.Asiakkaat.Etunimi)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Toimitusosoite)</dt>
+                        <dd>@Html.DisplayFor(model => model.Toimitusosoite)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Postinumero)</dt>
+                        <dd>@Html.DisplayFor(model => model.Postinumero)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Tilauspvm)</dt>
+                        <dd>@Html.DisplayFor(model => model.Tilauspvm)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Toimituspvm)</dt>
+                        <dd>@Html.DisplayFor(model => model.Toimituspvm)</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <a class="btn btn-success" href="~/Tilaukset/Edit/@Model.TilausID">Muokkaa tietoja</a>
+                <a class="btn btn-secondary" href="~/Tilaukset/Index/">Takaisin listaukseen</a>
+            </div>
+
+        </div>
+    </div>
+</div>

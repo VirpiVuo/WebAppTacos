@@ -1,0 +1,45 @@
+﻿@model WebAppTacos.Models.Asiakkaat
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalCustomerDelete">
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="Vihreä" class="modal-title">Asiakastietojen poistaminen</h4>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <h4>Haluatko varmasti poistaa asiakkaan @Html.DisplayFor(model => model.Etunimi) @Html.DisplayFor(model=> model.Sukunimi) tiedot?</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Etunimi)</dt>
+                        <dd>@Html.DisplayFor(model => model.Etunimi)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Sukunimi)</dt>
+                        <dd>@Html.DisplayFor(model => model.Sukunimi)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Osoite)</dt>
+                        <dd>@Html.DisplayFor(model => model.Osoite)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Postinumero)</dt>
+                        <dd>@Html.DisplayFor(model => model.Postinumero)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Postitoimipaikka)</dt>
+                        <dd>@Html.DisplayFor(model => model.Postitoimipaikka)</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <button type="submit" value="Delete" class="btn btn-success"><i class="fas fa-check"></i></button>
+                        <a href="@Url.Action("Index", "Asiakkaat")" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

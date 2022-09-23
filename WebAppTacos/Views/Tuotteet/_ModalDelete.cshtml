@@ -1,0 +1,43 @@
+﻿@model WebAppTacos.Models.Tuotteet
+
+<!-- The Modal -->
+<div class="modal fade" id="ModalProductDelete">
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="Vihreä" class="modal-title">Tuotetietojen poistaminen</h4>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <h4>Haluatko varmasti poistaa tuotteen @Html.DisplayFor(model => model.Nimi)?</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>@Html.DisplayNameFor(model => model.Nimi)</dt>
+                        <dd>@Html.DisplayFor(model => model.Nimi)</dd>
+                        <dt>Varastosaldo</dt>
+                        <dd>@Html.DisplayFor(model => model.varMaara)</dd>
+                        <dt>@Html.DisplayNameFor(model => model.Hinta)</dt>
+                        <dd>@Html.DisplayFor(model => model.Hinta)</dd>
+                        <dt>Tuoteryhmä</dt>
+                        <dd>@Html.DisplayFor(model => model.Tuoteryhmat.Tuoteryhmanimi)</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <button type="submit" value="Delete" class="btn btn-success"><i class="fas fa-check"></i></button>
+                        <a href="@Url.Action("Index", "Tuotteet")" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

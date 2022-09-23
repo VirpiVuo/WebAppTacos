@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WebAppTacos.ViewModels.ProductSummaryData>
+
+@{
+    ViewBag.Title = "ProductSummary";
+}
+
+<h1 id="Vihreä">TUOTTEIDEN YHTEENVETO</h1>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<table class="table-bordered">
+    <tr class="table-success">
+        <th>@Html.DisplayNameFor(model => model.TuoteID)</th>
+        <th>@Html.DisplayNameFor(model => model.Nimi)</th>
+        <th>@Html.DisplayNameFor(model => model.varMaara)</th>
+        <th>@Html.DisplayNameFor(model => model.Hinta)</th>
+        <th>@Html.DisplayNameFor(model => model.TuoteryhmaID)</th>
+        <th>@Html.DisplayNameFor(model => model.Tuoteryhmanimi)</th>
+        <th>@Html.DisplayNameFor(model => model.Kuvaus)</th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.TuoteID)</td>
+        <td>@Html.DisplayFor(modelItem => item.Nimi)</td>
+        <td>@Html.DisplayFor(modelItem => item.varMaara)</td>
+        <td>@Html.DisplayFor(modelItem => item.Hinta)</td>
+        <td>@Html.DisplayFor(modelItem => item.TuoteryhmaID)</td>
+        <td>@Html.DisplayFor(modelItem => item.Tuoteryhmanimi)</td>
+        <td>@Html.DisplayFor(modelItem => item.Kuvaus)</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+</table><br />
+<a class="btn btn-secondary" href="~/Tuotteet/Index/">Takaisin Tuotteisiin</a>
